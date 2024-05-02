@@ -1,0 +1,110 @@
+@use "../../../sass/abstracts/vars";
+@use "../../../sass/abstracts/mixins";
+
+.showcase {
+ //background-color: pink;
+ height: calc(100vh - 5rem);
+ // position: relative;
+ &__images {
+  aspect-ratio: 16/9;
+  width: 100vw;
+  height: calc(100vw * 0.5625);
+  //background-color: red;
+  transition: all 1s;
+  overflow: hidden;
+  &__list {
+   //background-color: orange;
+   height: 100%;
+   display: flex;
+   flex-wrap: nowrap;
+   transition: all 0.5s;
+   &__item {
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    &__image {
+     filter: blur(0px);
+     width: 100%;
+     height: 100%;
+     object-fit: cover;
+     object-position: center;
+     transition: all 0.5s;
+    }
+   }
+  }
+  &__expanded {
+   width: 100vw;
+   height: 100vh;
+   left: 0;
+   transform: translateX(0);
+   opacity: 0.5;
+   .showcase__images__list {
+    &__item {
+     &__image {
+      filter: blur(4px);
+      transform: scale(1.1);
+     }
+    }
+   }
+  }
+  @include mixins.breakpoint(laptop) {
+   width: 60vw;
+   height: calc(60vw * 0.5625);
+   position: absolute;
+   top: 5rem;
+   left: 50%;
+   transform: translateX(-50%);
+   z-index: 1;
+   &__expanded {
+    width: 100vw;
+    height: 100vh;
+    left: 0;
+    top: 0;
+    transform: translateX(0);
+    &__list {
+     &__item {
+      &__image {
+       filter: blur(4px);
+      }
+     }
+    }
+   }
+  }
+ }
+ &__content {
+  position: relative;
+  z-index: 2;
+  margin-top: -2rem;
+  @include mixins.breakpoint(laptop) {
+   margin-top: 0;
+  }
+ }
+ &__counter {
+  display: none;
+  @include mixins.breakpoint(laptop) {
+   display: block;
+   font-size: 1.5rem;
+   font-family: vars.$font__fat;
+  }
+ }
+ &__number {
+  font-family: vars.$font__slab;
+  font-size: 8rem;
+  line-height: 0.75;
+  font-weight: bold;
+  opacity: 0.6;
+  @include mixins.breakpoint(laptop) {
+   font-size: 31rem;
+  }
+ }
+ &__artist {
+  font-size: 4rem;
+  font-family: vars.$font__fat;
+  line-height: 0.75;
+  text-transform: uppercase;
+  text-align: right;
+  @include mixins.breakpoint(laptop) {
+   font-size: 6rem;
+  }
+ }
+}

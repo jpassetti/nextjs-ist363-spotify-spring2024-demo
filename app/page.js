@@ -1,72 +1,37 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
-import Container from "../components/Container";
-import Frame from "../components/Frame";
-import ImageSlider from "../components/ImageSlider";
-import TextSlider from "../components/TextSlider";
-import Header from "../components/Header";
+import Showcase from "../components/custom/Showcase";
 
-const artists = [
- {
-  name: "Taylor Swift",
- },
- {
-  name: "Beyoncé",
- },
- {
-  name: "Adele",
- },
- {
-  name: "Ariana Grande",
- },
- {
-  name: "Rihanna",
- },
- {
-  name: "Lady Gaga",
- },
- {
-  name: "Katy Perry",
- },
- {
-  name: "Nicki Minaj",
- },
- {
-  name: "Dua Lipa",
- },
- {
-  name: "Lorde",
- },
-];
+const HomePage = () => {
+ const [artists, setArtists] = useState([]);
+ const [isLoading, setIsLoading] = useState(true);
+ const [error, setError] = useState(null);
 
-const Home = () => {
- const [activeIndex, setActiveIndex] = useState(0);
+ useEffect(() => {
+  try {
+   fetch("/api/artists")
+    .then((res) => res.json())
+    .then((data) => {
+     setArtists(data.artists);
+     setIsLoading(false);
+    });
+  } catch (error) {
+   setError(error);
+  }
+ }, []);
+
+ if (isLoading) return <p>Loading...</p>;
+ if (error) return <p>Error loading artists</p>;
+
+ //console.log({ artists });
+
  return (
   <main>
-   <Frame>
-    <Container>
-     <Header />
-     <ImageSlider artists={artists} activeIndex={activeIndex} />
-     <TextSlider artists={artists} activeIndex={activeIndex} />
-     <button
-      onClick={() => {
-       setActiveIndex(activeIndex - 1);
-      }}
-     >
-      Previous
-     </button>
-     <button
-      onClick={() => {
-       setActiveIndex(activeIndex + 1);
-      }}
-     >
-      Next
-     </button>
-    </Container>
-   </Frame>
+   <Showcase items={artists} />
   </main>
  );
 };
-export default Home;
+
+export default HomePage;
